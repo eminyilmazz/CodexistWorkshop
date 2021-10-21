@@ -23,13 +23,20 @@ public class LocationController {
                 .orElseThrow(() -> new Exception ("Location " + locationId + " not found"));
         return ResponseEntity.ok().body(location);
     }
-    @GetMapping("/locations?{longitude}&{latitude}")
+    @GetMapping("/locations/coordinates")
     public ResponseEntity<Location> getLocationByCoordinates(@RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude)
-        throws Exception {
-            Location location = locationRepository.findByCoordinates(longitude, latitude)
-                 .orElseThrow(() -> new Exception ("Longitude: " + longitude + "\t Latitude: " + latitude + " not found."));
-            return ResponseEntity.ok().body(location);
+            throws Exception {
+        Location location = locationRepository.findByCoordinates(longitude, latitude)
+                .orElseThrow(() -> new Exception ("Longitude: " + longitude + "\t Latitude: " + latitude + " not found."));
+        return ResponseEntity.ok().body(location);
     }
+    /*@GetMapping("/locations?{longitude}&{latitude}")
+    public ResponseEntity<Location> getLocationByCoordinates(@PathVariable(value = "longitude") double longitude, @PathVariable(value = "latitude") double latitude)
+            throws Exception {
+        Location location = locationRepository.findByCoordinates(longitude, latitude)
+                .orElseThrow(() -> new Exception ("Longitude: " + longitude + "\t Latitude: " + latitude + " not found."));
+        return ResponseEntity.ok().body(location);
+    }*/
     @PostMapping("/locations")
     public Location createLocation(@RequestBody Location location) { return locationRepository.save(location);}
 }
