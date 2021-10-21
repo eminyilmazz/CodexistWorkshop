@@ -12,13 +12,19 @@
 </p>
 <form id = "location-values">
     <label for="longitude">Longitude:</label><br>
-    <input type="number" id="longitude" name="longitude" min = "-180" max = "180" step = ".00001"><br>
+    <input type="number" id="longitude" name="longitude" min = "-180" max = "180" step = ".000001"><br>
     <label for="latitude">Latitude:</label><br>
-    <input type="number" id="latitude" name="latitude" min = "-90" max = "90" step = ".00001"><br>
+    <input type="number" id="latitude" name="latitude" min = "-90" max = "90" step = ".000001"><br>
     <label for="radius">Radius:</label><br>
-    <input type="number" id="radius" name="radius" step = ".001"><br>
+    <input type="number" id="radius" name="radius" step = ".0001"><br>
     <button type = "submit">Submit</button>
 </form>
+    <div class="container-fluid">
+        <div id="google-map">
+            
+        </div>
+    </div>
 </body>
-<script src="app.js"></script>
+    <script src = "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <script src="app.js"></script>
 </html>
