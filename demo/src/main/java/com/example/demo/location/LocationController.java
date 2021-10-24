@@ -1,4 +1,4 @@
-package com.example.demo.location;
+package com.example.demo.Location;
 
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,9 @@ public class LocationController {
     private LocationRepository locationRepository;
 
     @GetMapping("/locations")
-    public List<Location> getAllLocations() { return locationRepository.findAll(); }
+    public List<Location> getAllLocations() {
+        System.out.println("Here2");
+        return locationRepository.findAll(); }
 
     @GetMapping("/locations/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable(value = "id") Long locationId)
@@ -23,10 +25,11 @@ public class LocationController {
                 .orElseThrow(() -> new Exception ("Location " + locationId + " not found"));
         return ResponseEntity.ok().body(location);
     }
-    @GetMapping("/locations/coordinates")
-    public ResponseEntity<Location> getLocationByCoordinates(@RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude)
+    @GetMapping("/coordinates")
+    public ResponseEntity<Location> getLocationByCoordinates(@RequestParam(name = "longitude") double longitude, @RequestParam(name = "latitude") double latitude)
             throws Exception {
-        Location location = locationRepository.findByCoordinates(longitude, latitude)
+        System.out.println("Here");
+        Location location = locationRepository.findByLongitudeAndLatitude(longitude, latitude)
                 .orElseThrow(() -> new Exception ("Longitude: " + longitude + "\t Latitude: " + latitude + " not found."));
         return ResponseEntity.ok().body(location);
     }
