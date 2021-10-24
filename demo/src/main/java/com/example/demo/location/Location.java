@@ -1,4 +1,4 @@
-package com.example.demo.location;
+package com.example.demo.Location;
 
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,6 +16,7 @@ public class Location {
     private double longitude;
     @Column(name = "latitude", nullable = false)
     private double latitude;
+
 
     public double getLongitude() { return longitude; }
     public void setLongitude(double longitude) { this.longitude = longitude; }
