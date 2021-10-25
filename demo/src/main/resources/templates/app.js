@@ -1,12 +1,4 @@
-// var defaultLatLng = { lat:41.015137, lng: 28.979530}
 
-// var mapOptions = { 
-//     center: myLatLng, 
-//     zoom: 7,
-//     mapTypeId: google.maps.mapTypeId.ROADMAP
-// };
-
-// var map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
 class Request {
     constructor(){
         this.xhr = new XMLHttpRequest();
@@ -43,6 +35,42 @@ class Request {
         this.xhr.send(JSON.stringify(data));
     }
 }
+const defaultLatLong = { lat:41.015137, lng: 28.979530}
+var map = undefined;
+var mapMarker = undefined;
+//console.log(window.map)
+//Initialize map
+function initMap() { 
+  let defaultMapOptions = { 
+    center: defaultLatLong, 
+    zoom: 12,
+  } 
+  map = new google.maps.Map(document.getElementById('map'), defaultMapOptions);
+
+  mapMarker = new google.maps.Marker({
+      position: defaultLatLong,
+      map: map
+  });
+}
+//Update the center of the map with given coordinates
+function updateCenter(updatedLatLng, radius) {
+    const latLng = {lat: JSON.parse(updatedLatLng)["latitude"], lng: JSON.parse(updatedLatLng)["longitude"]}
+    //console.log(latLng)
+    const center = new google.maps.LatLng(latLng);
+    window.map.panTo(center);
+    //Convert given radius to zoom level and set the zoom of the map
+    if (radius) {
+        window.map.setZoom(getBaseLog(2, 40000 / (Number(radius) / 2)))
+        console.log(!radius)
+    }
+    //Remove the previous map marker
+    if (mapMarker) mapMarker.setMap(null);
+    mapMarker = new google.maps.Marker({
+        position: latLng,
+        map: map
+    })
+}
+
 const baseUrl = "http://localhost:8080/";
 const req = new Request();
 
@@ -61,7 +89,9 @@ function onSubmit(e){
 function updateBox(err, response){
 //  console.log("updateBox")
     if (response) {
+        //console.log(response)
         document.getElementById("message-space").innerHTML = "The coordinates of the given location already exists in the database.<br>Fetching data...";
+        updateCenter(response, document.getElementById("radius").value);
     }
     else {
         document.getElementById("message-space").innerHTML = "The coordinates of the given location doesn't exist in the database.<br>Posting data...";
@@ -70,9 +100,10 @@ function updateBox(err, response){
         let coordinates = {longitude: long, latitude: lat};
         const postRequestUrl = baseUrl + "locations"
         req.post(postRequestUrl, coordinates, function(err, response){
-            console.log(response)
+            //console.log(response)
             if (response) {
                 document.getElementById("message-space").innerHTML += "<br>Posting completed." 
+                updateCenter(response, document.getElementById("radius").value);
             } else {
                 document.getElementById("message-space").innerHTML += " Error posting coordinates."
             }
@@ -80,9 +111,9 @@ function updateBox(err, response){
     }
     if (err === null) {
         console.log(typeof JSON.stringify(response))
-//      document.getElementById("message-space").textContent = JSON.stringify(response);
-
-
     }
-    else {console.log(err);}
+    else {console.error(err);}
+}
+function getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
 }

@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Location Finder</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <h1> Location Finder</h1>
 <p>
     This page brings up the map location for given coordinates. <br>
-    Longitude must be a number between -180 and 180. Latitude must be a number between -90 and 90.
+    Longitude must be a number between -180 and 180. Latitude must be a number between -90 and 90. <br>
+    Radius must be in kilometers. 
 </p>
 <form id = "location-values">
     <label for="longitude">Longitude:</label><br>
@@ -23,6 +25,9 @@
         <div id="message-space">
         </div>
     </div>
+    <div id="map"></div>
 </body>
     <script src="app.js"></script>
-</html>    <!--<script src = "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <script defer 
+            src = "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+</html>

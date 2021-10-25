@@ -1,5 +1,4 @@
-#google-map{
-    width: 80%;
-    height: 400px;
-    margin: 20px auto;
+#map{
+    width: 800px;
+    height: 800px;
 }
